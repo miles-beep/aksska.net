@@ -1,0 +1,581 @@
+.container-head {
+    position: relative;
+    font-size: 1rem;
+    background: #45455f;
+    transition: all 0.3s;
+    z-index: 300;
+}
+.mhead-fix {
+    position: fixed;
+    top: 0; left: 0;
+    right: 0;
+/*    border-bottom: 1.5px solid rgba(0,0,0,.2);    */
+    box-shadow: 0 2px 3px rgba(0,0,0,.4);    
+}
+
+/****** Start Mobile-Top Bar ******/
+.TopBar-mob {
+    position: relative;
+    height: 60px;
+    transition:  0.3s;
+}
+
+.TopBar-mob  h1 {
+    position: absolute;
+    left: 10px;
+    font-size: 1.5em;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+}
+.TopBar-mob h1 img {
+    height: 44.5px;
+}
+.Side_Menu {
+    position: relative;
+    width: 100%;
+}
+.wrap-menus > label {
+    position: absolute;
+    left: 10px;
+    z-index: 101;
+    top: 15px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+nav {
+    width: 100%;
+    height: 100%;
+}
+.Side_Menu {
+    display: block;
+    width: 300px;
+    height: 100%;
+    position : fixed;
+    top: 0;
+    left: -300px;
+    z-index: 100;
+    text-align: right;
+    box-sizing: border-box;
+    background: #ddd;
+    transition: all 0.3s linear;
+}
+.Side_Menu h2 {
+    font-size: 1.3em;
+    height: 50px;
+    line-height: 50px;
+    background: #323244;
+    color: #eee;
+    padding-right: 15px;
+    box-sizing: border-box;
+}
+/* (0415) edit */
+/*.Side_Menu ul {margin-top: 15px;}*/
+.Side_Menu ul li a {
+    display: block;
+    height: 43px;
+    line-height: 43px;
+    text-align: left;
+    font-weight: bold;
+    padding: 0 10px 0 25px;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.Side_Menu ul li a:after {
+    content: '';
+}
+.Side_Menu ul li {position: relative;}
+
+
+/************ Start mnav-sub (04.09) **************/
+.Side_Menu li > ul {
+    display: none;
+    margin-top: 0;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ccc;    
+}
+.Side_Menu li > label {
+    position: absolute;
+    top: 1px;
+    right: 3%;
+    cursor: pointer;
+    font-size: 1.5em;
+    vertical-align: middle;
+    font-weight: bold;
+    padding: 0 10px 0 70px;
+    z-index: 120;
+}
+.Side_Menu li > label span {color: #1565c0;}
+.Side_Menu li > label span:last-child {display: none;}
+
+.mnav-subm {display: none; }
+.Side_Menu li > input:checked ~ .mnav-subm {display: block;}
+.Side_Menu li> input:checked ~ label span:first-child {display: none;}
+.Side_Menu li > input:checked ~ label span:last-child {display: inline-block;}
+
+.Side_Menu ul li > .mnav-subm li a {
+    display: block;
+    height: 38px;
+    line-height: 38px;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-bottom: none;
+    font-weight: 400;
+    font-size: 0.95em;
+}
+.Side_Menu ul li > .mnav-subm li a:before {
+    content: '-'; 
+    margin-right: 5px;
+}
+.Side_Menu ul li > .mnav-subm li a:hover {
+    background: rgba(0,0,0,0.15);
+}
+    
+/************ End mnav-sub (04.09) **************/   
+
+.wrap-menus input {display: none;}
+.bg-SMn {
+    display: none;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0; right: 0; top: 0; bottom: 0;
+    background: rgba(0,0,0,.6);
+    z-index: 99;
+}
+.wrap-menus > input:checked ~ nav .Side_Menu {left: 0;}
+.wrap-menus > input:checked ~ nav .bg-SMn {display: block;}
+
+.MenuBtns {
+    //display: block;
+    display: none;
+    width: 30px;
+    height: 30px;
+    transition: all 0.3s;
+}
+.MenuBtns span, .MenuBtns span:before, .MenuBtns span:after {
+    position: absolute;
+    width: 100%;
+    height: 5px;
+    background: #fff;
+    transition: all 0.3s;
+    border-radius: 1px;
+}
+.MenuBtns span {display: block; top: 50%; transform: translate(0,-50%);}
+.MenuBtns span:before, .MenuBtns span:after {content: ''; left: 0; top: 0;}
+.MenuBtns span:after {width: 60%;}
+.MenuBtns:hover span:after {width: 100%;}
+
+.MenuBtns span:after {top: 10px;}
+.MenuBtns span:before {top: -10px;}
+
+.wrap-menus > input:checked ~ label .MenuBtns span {background: rgba(225,245,136,0);}
+.wrap-menus > input:checked ~ label .MenuBtns span:before {transform: rotate(135deg); -webkit-transform: rotate(135deg); margin-top: 10px;}
+.wrap-menus > input:checked ~ label .MenuBtns span:after {transform: rotate(-135deg); -webkit-transform: rotate(-135deg); margin-top: -10px; width: 100%;}     
+
+/****** End Mobile-Top Bar ******/
+
+/****** Start Search-Box Mobile ******/
+.MagnifierArea > input {display: none;}
+.MagnifierBtn {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    transition: 0.3s;
+}
+.MagnifierArea label {
+    color: #eee;
+    font-size: 1.87em;
+    cursor: pointer;
+}
+.MagnifierArea input:checked ~ .inputBox-schm {
+    display: block;
+}
+
+.wrap-schm {}
+.inputBox-schm {
+    display: none;
+    min-height: 50px;
+    border-top: 1px solid rgba(0,0,0,.2);
+    padding: 8px 3%;
+    box-sizing: border-box;
+}
+.inner-schm {
+    width: 100%;
+    position: relative;
+    margin: 5px auto;
+}
+.inner-schm input {
+    width: 100%;
+    height: 45px;
+    font-size: 0.94rem;
+    line-height: 45px;
+    padding: 0 68px 0 10px;
+    position: relative;
+    border: 1px solid #e0e0e0;
+    border-radius: 5px;
+    text-indent: 10px;
+    box-sizing: border-box;
+}
+
+.inner-schm button {
+    position: absolute;
+    background: #ff847c;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 63px;
+    border: none;
+    font-size: 1.4em;
+    color: #fff;
+    vertical-align: middle;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.relatedKey_mo {
+    width: 100%;
+    padding: 0 5px;
+    box-sizing: border-box;
+    text-overflow: ellipsis ; 
+    white-space: nowrap ; 
+    overflow: hidden ;
+}
+.relatedKey_mo a {
+    color: #eee !important;
+    margin-right: 6px;
+}
+.relatedKey_mo a:after {
+    content: ' ';
+}
+.relatedKey_mo a:last-child:after {content: '';}
+
+
+/*** Fixed-Action ***/
+.wrap-menus > input:checked ~ label {top: 10px;}
+.container-head.mhead-fix .TopBar-mob {height: 50px;}
+.container-head.mhead-fix .wrap-menus > label {top: 10px;}
+.container-head.mhead-fix .MagnifierBtn {top: 2px;}
+
+/****** End Search-Box Mobile ******/
+
+/****** Start Top-Sub Menu ******/
+.Popmenu-head {
+    border-bottom: 2px solid #323244;
+}
+.Popmenu-head ul {
+    display: flex;
+    background: #eee;
+}
+.Popmenu-head li {
+    flex: 1; 
+    position: relative;
+    box-sizing: border-box;
+}
+.Popmenu-head li a {
+    display: block;
+    height: 43px;
+    line-height: 43px;
+    font-weight: bold;
+    text-align: center;
+}
+.Popmenu-head li:not(:first-of-type):before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 25%;
+    width: 1px;
+    height: 50%;
+    background: rgba(0,0,0,0.2);
+    box-sizing: border-box;
+}
+.Popmenu-head li a:hover {
+    background: rgba(0,0,0,0.15);
+}
+/****** End Top-Sub Menu ******/
+
+/***** Start Popular-Site List (Slick) *****/
+.WrapPopc {
+    position: relative;
+    border-top: 1px solid rgba(0,0,0,0.35);
+    box-sizing: border-box;
+}
+.ListPopc {
+    background: #323244; 
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.ListPopc li {
+    display: inline-block;
+    width: 13.5%;
+    padding: 8px 0;
+    text-align: center;
+    box-sizing: border-box;
+}
+.ListPopc li a {
+    display: block;
+    margin: auto;
+    height: 35px;
+    width: 35px;
+    border-radius: 50em;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+.ListPopc li a img {width: 100%; height: 100%;}
+.ListPopc button {
+    position: absolute; 
+    z-index: 10; 
+    top: 50%; transform: translateY(-50%); 
+    width: 25px; height: 25px; 
+    border: none; 
+    background: transparent; 
+    cursor: pointer;
+}
+.ListPopc button:before {
+    font-family: 'fontawesome';
+    font-size: 22px;
+    text-align: center;
+    color: rgba(255,255,255,0.37);
+}
+.ListPopc button.slick-prev {left: 2px; font-size: 0; color: transparent;}
+.ListPopc button.slick-prev:before {content: '\f053';}
+.ListPopc button.slick-next {right: 2px; font-size: 0; color: transparent;}
+.ListPopc button.slick-next:before {content: '\f054';}    
+
+ /***** End Popular-Site List (Slick) *****/
+
+/* === (0415) Mobile-Menu Login Button === */
+
+/* - Logout Box - */
+.bxst-logout {
+    height: 140px;
+    padding: 20px 15px 0 15px;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.btn-soven {
+    text-align: center;
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 4px;
+    box-sizing: border-box;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);    
+}
+.bxst-logout > a {
+    display: block;
+    height: 40px;
+    line-height: 40px;    
+    font-weight: 600;
+}
+.bxst-logout > a:first-of-type {
+    background: -webkit-linear-gradient(top left, #666 0%, #888 100%);
+    background: -o-linear-gradient(top left, #666 0%, #888 100%);
+    background: linear-gradient(to bottom right, #666 0%, #888 100%);
+    color: #fff;
+}
+.bxst-logout > a:last-of-type {
+    background-color: #ccc;
+    margin-top: 15px;
+}
+/* - end - Logout Box - */
+
+/* - Login Box - */
+.bxst-login {
+    height: 140px;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.bxst-login > div {
+    box-sizing: border-box;
+}
+.bxst-login .info-login {
+    overflow: hidden;
+}
+.bxst-login .info-login span {
+    display: block;
+    height: 35px;
+    line-height: 34px;
+    padding: 0 10px 0 23px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #ccc;
+    white-space: nowrap ; 
+    overflow: hidden;
+    text-overflow: ellipsis; 
+    box-sizing: border-box;
+}
+.bxst-login .info-login span:after {
+    content: '님';
+    margin-left: 4px;
+    font-weight: 400;
+    color: #666;
+    font-size: 0.9em;
+}
+.bxst-login .btn-setlog {
+    height: 55px;
+    padding: 10px 15px 0 20px;
+    background-color: #eef3f8;
+    border-bottom: 1px solid #ccc;
+}
+.bxst-login .btn-setlog a {
+    display: block;
+    text-align: center;
+    height: 35px;
+    line-height: 33px;
+    background: -webkit-linear-gradient(top left, #666 0%, #888 100%);
+    background: -o-linear-gradient(top left, #666 0%, #888 100%);
+    background: linear-gradient(to bottom right, #666 0%, #888 100%);
+    color: #fff;
+}
+.bxst-login .bxst-login {
+    height: 50px;
+    display: flex;
+    padding: 9px 15px 0 20px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;    
+}
+.bxst-login .bxst-login a {
+    display: block;
+    font-size: 0.9em;
+    width: 49%;
+    height: 30px; line-height: 28px;
+    background-color: #ccc;
+}
+.bxst-login .bxst-login a:last-of-type {
+    margin-left: 2%;
+}
+/* - end - sLogin Box - */
+/* === (0415) end - Mobile-Menu Login Button === */
+
+
+/* === (0415) Logout-Box === */
+.wrap-lopc {
+/*    height: 185px;*/
+    box-sizing: border-box;
+}
+.wrap-lopc > h3 {
+    height: 33px;
+    padding: 5px 7px 7px;
+    border-bottom: 2px solid #fd4f43;
+    text-align: left;
+    box-sizing: border-box;
+}
+.bx-loginfo {}
+.bx-loginfo ul {
+    display: flex;
+    padding: 7px;
+    margin-top: 0px;
+    box-sizing: border-box;
+}
+.bx-loginfo .info-input {
+    width: 65%;
+}
+.bx-loginfo .info-input input {
+    display: block;
+    width: 100%;
+    height: 30px;
+    border: 1px solid #ccc;
+    padding: 0 8px;
+    box-sizing: border-box;
+    outline: none;
+}
+.bx-loginfo .info-input input:focus, .wrap-lopc .joinus a:hover, .bx-loginfo li .btn-goes:hover, .wrap-lopc h3 .btn-logout:hover {
+    border: 1px solid #4dabf7;
+    box-shadow: 0 0 3px rgba(77,171,247,.7);
+}
+.bx-loginfo .info-input .pwz {
+    margin-top: 5px;
+}
+.bx-loginfo li:last-child {
+    flex: 1;
+    padding-left: 5px;
+    box-sizing: border-box;
+}
+.bx-loginfo li .btn-goes {
+    display: block;
+    width: 100%;
+    margin: auto;
+    height: 65px;
+    line-height: 65px;
+    text-align: center;
+    color: #fff;
+    font-weight: bold;
+    background-color: #4d6895;
+    border-radius: 3px;
+    padding: 0;
+    box-sizing: border-box;
+}
+.bx-loginfo .state {
+    padding: 0 7px 5px;
+}
+.bx-loginfo .state .keep {}
+.bx-loginfo .state .secure {margin-left: 15px;}
+.bx-loginfo .state .keep .on, .bx-loginfo .state .secure .on {display: none;}
+.bx-loginfo .state .keep.on .off, .bx-loginfo .state .secure.on .off {display: none;}
+.bx-loginfo .state .keep.on .on, .bx-loginfo .state .secure.on .on {
+    display: inline-block;
+    color: #fd4545;
+}
+.wrap-lopc .joinus {
+    background-color: rgba(170,170,170,.08);
+    border-top: 1px solid #eee;
+    padding: 7px 7px;
+    box-sizing: border-box;
+    display: flex;
+}
+.wrap-lopc .joinus a {
+    width: 49%;
+    display: block;
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    box-sizing: border-box;
+}
+.wrap-lopc .joinus a:hover {
+    font-weight: bold;
+}
+.wrap-lopc .joinus .joinz {
+    background-color: rgba(100,100,100,0.2);
+}
+.wrap-lopc .joinus .findz {
+    margin-left: 2%;
+    background-color: #fff;
+}
+/* === (0415) end - Logout-Box === */
+
+/* (0506) 메뉴버튼 수정 */
+.wrap-menus label > p {
+    position: absolute;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 8px;
+    background-color: #eee;
+    color: #222;
+    border-radius: 3px;
+    font-weight: bold;
+    box-shadow: 1px 2px 3px rgba(0,0,0,0.6);
+}
+.wrap-menus > input:checked ~ label .MenuBtns {display: block;}
+.wrap-menus > input:checked ~ label > p {display: none;}
+/* (0506) 메뉴버튼 수정 끝 */
+
+/*
+     FILE ARCHIVED ON 01:26:43 Mar 03, 2024 AND RETRIEVED FROM THE
+     INTERNET ARCHIVE ON 18:27:26 Mar 24, 2026.
+     JAVASCRIPT APPENDED BY WAYBACK MACHINE, COPYRIGHT INTERNET ARCHIVE.
+
+     ALL OTHER CONTENT MAY ALSO BE PROTECTED BY COPYRIGHT (17 U.S.C.
+     SECTION 108(a)(3)).
+*/
+/*
+playback timings (ms):
+  captures_list: 0.603
+  exclusion.robots: 0.055
+  exclusion.robots.policy: 0.044
+  esindex: 0.008
+  cdx.remote: 23.017
+  LoadShardBlock: 464.926 (3)
+  PetaboxLoader3.resolve: 462.326 (4)
+  PetaboxLoader3.datanode: 380.769 (4)
+  load_resource: 388.096
+*/
