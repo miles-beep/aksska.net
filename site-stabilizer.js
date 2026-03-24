@@ -5,6 +5,7 @@
   const SUPPORTED_LANGS = new Set(["ko", "en"]);
   const STORAGE_KEY = "aksska_lang";
   const FALLBACK_THUMB = "/images/fallback/card-01.svg";
+  const NON_PAGE_EXT_RE = /\.(?:css|js|json|xml|txt|png|jpe?g|gif|webp|svg|ico|woff2?|ttf|eot|map|pdf|zip|rar|7z|mp4|webm|mp3|wav|ogg)$/i;
 
   const HOMEPAGE_LINKS = [
     { href: "/002", ko: "코로나19 국내현황", en: "COVID-19 Korea Status", thumb: "/images/fallback/card-01.svg" },
@@ -43,12 +44,43 @@
     return out;
   }
 
-  function normalizeAnchors() {
+  function isSkippableHref(href) {
+    if (!href) return true;
+    return /^(#|javascript:|mailto:|tel:|data:)/i.test(href);
+  }
+
+  function isInternalNavigationHref(href) {
+    if (!href || isSkippableHref(href)) return false;
+    if (/^https?:\/\//i.test(href)) {
+      return DOMAIN_HOST_RE.test(href);
+    }
+    return href.startsWith("/") || href.startsWith("./") || href.startsWith("../") || !href.startsWith("//");
+  }
+
+  function withLangParam(href, lang) {
+    if (!SUPPORTED_LANGS.has(lang)) return href;
+    if (!isInternalNavigationHref(href)) return href;
+
+    try {
+      const url = new URL(href, window.location.origin);
+      const pathLower = (url.pathname || "").toLowerCase();
+      if (NON_PAGE_EXT_RE.test(pathLower)) return href;
+
+      url.searchParams.set("lang", lang);
+      return url.pathname + url.search + url.hash;
+    } catch {
+      return href;
+    }
+  }
+
+  function normalizeAnchors(lang) {
     const anchors = document.querySelectorAll("a[href]");
     for (const a of anchors) {
       const href = a.getAttribute("href");
-      const normalized = decodeHref(href || "");
-      if (normalized && normalized !== href) {
+      let normalized = decodeHref(href || "");
+      if (!normalized) continue;
+      normalized = withLangParam(normalized, lang);
+      if (normalized !== href) {
         a.setAttribute("href", normalized);
       }
     }
@@ -65,7 +97,7 @@
         }
       }
 
-      if (el.hasAttribute("href")) {
+      if (el.hasAttribute("href") && el.tagName !== "A") {
         const href = el.getAttribute("href");
         const normalized = decodeHref(href || "");
         if (normalized && normalized !== href) {
@@ -75,7 +107,7 @@
     }
   }
 
-  function improveForms() {
+  function improveForms(lang) {
     const forms = document.querySelectorAll("form");
     for (const form of forms) {
       const action = (form.getAttribute("action") || "").trim();
@@ -84,7 +116,11 @@
 
       form.addEventListener("submit", (event) => {
         event.preventDefault();
-        window.alert("Form submission is not available in this restored archive site yet.");
+        window.alert(
+          lang === "ko"
+            ? "아카이브 복원 사이트에서는 폼 제출을 지원하지 않습니다."
+            : "Form submission is not available in this restored archive site."
+        );
       });
     }
   }
@@ -123,24 +159,31 @@
     }
   }
 
-  function replaceTextNode(textNode, phraseMap) {
-    const raw = textNode.nodeValue;
-    if (!raw) return;
-    const trimmed = raw.trim();
-    if (!trimmed) return;
-    const next = phraseMap[trimmed];
-    if (!next || next === trimmed) return;
-    textNode.nodeValue = raw.replace(trimmed, next);
+  function buildTranslator(phraseMap) {
+    const replacements = Object.entries(phraseMap || {})
+      .filter(([from, to]) => typeof from === "string" && typeof to === "string" && from && from !== to)
+      .sort((a, b) => b[0].length - a[0].length);
+
+    function translateString(input) {
+      if (typeof input !== "string" || !input) return input;
+      let out = input;
+      for (const [from, to] of replacements) {
+        if (!out.includes(from)) continue;
+        out = out.split(from).join(to);
+      }
+      return out;
+    }
+
+    return { replacements, translateString };
   }
 
   function applyLanguage(lang, dictionaries) {
     const dict = dictionaries?.[lang];
     const phraseMap = dict?.phrases || {};
-    document.documentElement.lang = lang;
+    const { translateString } = buildTranslator(phraseMap);
 
-    if (phraseMap[document.title]) {
-      document.title = phraseMap[document.title];
-    }
+    document.documentElement.lang = lang;
+    document.title = translateString(document.title);
 
     const textWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
     const blockedTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "CODE", "PRE"]);
@@ -149,21 +192,88 @@
       const node = textWalker.currentNode;
       const parent = node.parentElement;
       if (!parent || blockedTags.has(parent.tagName)) continue;
-      replaceTextNode(node, phraseMap);
+      const current = node.nodeValue;
+      const next = translateString(current);
+      if (next !== current) node.nodeValue = next;
     }
 
-    const placeholders = document.querySelectorAll("[placeholder]");
-    for (const el of placeholders) {
-      const placeholder = el.getAttribute("placeholder");
-      const next = phraseMap[placeholder || ""];
-      if (next) el.setAttribute("placeholder", next);
+    const attrs = ["placeholder", "title", "alt", "aria-label", "value", "content"];
+    for (const attr of attrs) {
+      const elements = document.querySelectorAll(`[${attr}]`);
+      for (const el of elements) {
+        const current = el.getAttribute(attr);
+        if (!current) continue;
+        const next = translateString(current);
+        if (next !== current) el.setAttribute(attr, next);
+      }
     }
 
-    const valueInputs = document.querySelectorAll("input[value], button[value]");
-    for (const el of valueInputs) {
-      const value = el.getAttribute("value");
-      const next = phraseMap[value || ""];
-      if (next) el.setAttribute("value", next);
+    const buttonTextOnly = document.querySelectorAll("button, [role='button']");
+    for (const el of buttonTextOnly) {
+      if (el.children.length > 0) continue;
+      const current = el.textContent || "";
+      const next = translateString(current);
+      if (next !== current) el.textContent = next;
+    }
+
+    return { phraseMap, translateString };
+  }
+
+  function ensureSeo(lang, translateString) {
+    document.documentElement.lang = lang;
+
+    const canonicalUrl = new URL(window.location.href);
+    canonicalUrl.searchParams.delete("lang");
+
+    let canonical = document.querySelector("link[rel='canonical']");
+    if (!canonical) {
+      canonical = document.createElement("link");
+      canonical.setAttribute("rel", "canonical");
+      document.head.appendChild(canonical);
+    }
+    canonical.setAttribute("href", canonicalUrl.origin + canonicalUrl.pathname + canonicalUrl.search);
+
+    document.querySelectorAll("link[rel='alternate'][data-aksska-alt='1']").forEach((el) => el.remove());
+
+    for (const altLang of ["ko", "en"]) {
+      const altUrl = new URL(canonicalUrl.origin + canonicalUrl.pathname + canonicalUrl.search + canonicalUrl.hash);
+      altUrl.searchParams.set("lang", altLang);
+
+      const link = document.createElement("link");
+      link.setAttribute("rel", "alternate");
+      link.setAttribute("hreflang", altLang);
+      link.setAttribute("href", altUrl.origin + altUrl.pathname + altUrl.search);
+      link.setAttribute("data-aksska-alt", "1");
+      document.head.appendChild(link);
+    }
+
+    const xDefault = document.createElement("link");
+    xDefault.setAttribute("rel", "alternate");
+    xDefault.setAttribute("hreflang", "x-default");
+    xDefault.setAttribute("href", canonicalUrl.origin + canonicalUrl.pathname + canonicalUrl.search);
+    xDefault.setAttribute("data-aksska-alt", "1");
+    document.head.appendChild(xDefault);
+
+    const ogLocale = document.querySelector("meta[property='og:locale']");
+    if (ogLocale) ogLocale.setAttribute("content", lang === "ko" ? "ko_KR" : "en_US");
+
+    const translatableMeta = [
+      "meta[name='description']",
+      "meta[name='subject']",
+      "meta[name='title']",
+      "meta[property='og:title']",
+      "meta[property='og:description']",
+      "meta[property='og:site_name']"
+    ];
+
+    for (const sel of translatableMeta) {
+      const el = document.querySelector(sel);
+      if (!el) continue;
+      const current = el.getAttribute("content") || "";
+      const next = translateString(current);
+      if (next && next !== current) {
+        el.setAttribute("content", next);
+      }
     }
   }
 
@@ -278,13 +388,13 @@
     for (const item of HOMEPAGE_LINKS) {
       const card = document.createElement("a");
       card.className = "aksska-fallback-card";
-      card.href = item.href;
+      card.href = withLangParam(item.href, lang);
       card.setAttribute("aria-label", lang === "ko" ? item.ko : item.en);
 
       const thumb = document.createElement("img");
       thumb.className = "aksska-fallback-thumb";
       thumb.src = item.thumb || FALLBACK_THUMB;
-      thumb.alt = "";
+      thumb.alt = lang === "ko" ? item.ko : item.en;
       thumb.loading = "lazy";
       card.appendChild(thumb);
 
@@ -311,17 +421,22 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    const lang = detectLanguage();
     normalizeAssets();
-    normalizeAnchors();
-    improveForms();
+    normalizeAnchors(lang);
+    improveForms(lang);
+
     loadDictionaries().then((dictionaries) => {
-      const lang = detectLanguage();
-      if (!dictionaries) {
-        ensureHomepageUsable(lang);
-        return;
+      let translateString = (value) => value;
+
+      if (dictionaries) {
+        const res = applyLanguage(lang, dictionaries);
+        translateString = res.translateString;
+        renderLanguageSwitcher(lang, dictionaries);
       }
-      applyLanguage(lang, dictionaries);
-      renderLanguageSwitcher(lang, dictionaries);
+
+      ensureSeo(lang, translateString);
+      normalizeAnchors(lang);
       ensureHomepageUsable(lang);
     });
   });

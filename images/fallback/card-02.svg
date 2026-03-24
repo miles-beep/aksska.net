@@ -1,14 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="AKSSKA card 02">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="Coupang card">
   <defs>
-    <linearGradient id="g02" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#0ea5e9"/>
-      <stop offset="100%" stop-color="#1d4ed8"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#7c2d12"/>
+      <stop offset="100%" stop-color="#ea580c"/>
     </linearGradient>
   </defs>
-  <rect width="640" height="360" fill="url(#g02)"/>
-  <circle cx="560" cy="80" r="60" fill="rgba(255,255,255,0.18)"/>
-  <circle cx="120" cy="300" r="90" fill="rgba(255,255,255,0.12)"/>
-  <path d="M80 240 L240 120 L360 180 L540 70" stroke="rgba(255,255,255,0.35)" stroke-width="8" fill="none" stroke-linecap="round"/>
-  <text x="44" y="70" fill="rgba(255,255,255,0.95)" font-size="42" font-family="Arial, Helvetica, sans-serif" font-weight="700">AKSSKA</text>
-  <text x="44" y="114" fill="rgba(255,255,255,0.82)" font-size="24" font-family="Arial, Helvetica, sans-serif">Quick Link 02</text>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <rect x="58" y="90" width="118" height="108" rx="14" fill="rgba(255,255,255,0.95)"/>
+  <path d="M84 131h66" stroke="#ea580c" stroke-width="8" stroke-linecap="round"/>
+  <path d="M76 131h13" stroke="#ea580c" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="95" cy="212" r="10" fill="#ffffff"/>
+  <circle cx="145" cy="212" r="10" fill="#ffffff"/>
+  <text x="212" y="152" fill="#ffffff" font-size="54" font-family="Arial, Helvetica, sans-serif" font-weight="700">COUPANG</text>
+  <text x="58" y="248" fill="rgba(255,255,255,0.92)" font-size="29" font-family="Arial, Helvetica, sans-serif">Shopping shortcut</text>
 </svg>

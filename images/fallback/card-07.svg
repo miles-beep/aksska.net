@@ -1,14 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="AKSSKA card 07">
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="360" viewBox="0 0 640 360" role="img" aria-label="Trending card">
   <defs>
-    <linearGradient id="g07" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#ec4899"/>
-      <stop offset="100%" stop-color="#831843"/>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#be123c"/>
+      <stop offset="100%" stop-color="#f43f5e"/>
     </linearGradient>
   </defs>
-  <rect width="640" height="360" fill="url(#g07)"/>
-  <circle cx="560" cy="80" r="60" fill="rgba(255,255,255,0.18)"/>
-  <circle cx="120" cy="300" r="90" fill="rgba(255,255,255,0.12)"/>
-  <path d="M80 240 L240 120 L360 180 L540 70" stroke="rgba(255,255,255,0.35)" stroke-width="8" fill="none" stroke-linecap="round"/>
-  <text x="44" y="70" fill="rgba(255,255,255,0.95)" font-size="42" font-family="Arial, Helvetica, sans-serif" font-weight="700">AKSSKA</text>
-  <text x="44" y="114" fill="rgba(255,255,255,0.82)" font-size="24" font-family="Arial, Helvetica, sans-serif">Quick Link 07</text>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <path d="M62 219 L134 144 L185 176 L235 108" stroke="#ffffff" stroke-width="12" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="62" cy="219" r="9" fill="#ffffff"/>
+  <circle cx="134" cy="144" r="9" fill="#ffffff"/>
+  <circle cx="185" cy="176" r="9" fill="#ffffff"/>
+  <circle cx="235" cy="108" r="9" fill="#ffffff"/>
+  <text x="270" y="150" fill="#ffffff" font-size="54" font-family="Arial, Helvetica, sans-serif" font-weight="700">TRENDING</text>
+  <text x="62" y="248" fill="rgba(255,255,255,0.92)" font-size="29" font-family="Arial, Helvetica, sans-serif">Most popular right now</text>
 </svg>
