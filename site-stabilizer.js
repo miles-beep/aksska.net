@@ -4,18 +4,18 @@
   const WAYBACK_WRAP_REL_RE = /^\/web\/\d{6,14}(?:[a-z_]+)?\/(https?:\/\/.+)$/i;
   const SUPPORTED_LANGS = new Set(["ko", "en"]);
   const STORAGE_KEY = "aksska_lang";
-  const FALLBACK_THUMB = "/images/icons/no-imgs.jpg";
+  const FALLBACK_THUMB = "/images/fallback/card-01.svg";
 
   const HOMEPAGE_LINKS = [
-    { href: "/002", ko: "코로나19 국내현황", en: "COVID-19 Korea Status" },
-    { href: "/001/32", ko: "쿠팡", en: "Coupang" },
-    { href: "/005", ko: "TV홈쇼핑", en: "TV Home Shopping" },
-    { href: "/?q=국민은행", ko: "국민은행", en: "Kookmin Bank" },
-    { href: "/?q=중고나라", ko: "중고나라", en: "Used Market" },
-    { href: "/notice", ko: "공지사항", en: "Notices" },
-    { href: "/?m=hot", ko: "실시간 인기글", en: "Trending Now" },
-    { href: "/content/company", ko: "회사소개", en: "About Us" },
-    { href: "/content/%EB%A7%81%ED%81%AC%EB%93%B1%EB%A1%9D%EC%8B%A0%EC%B2%AD/", ko: "링크등록신청", en: "Link Submission" }
+    { href: "/002", ko: "코로나19 국내현황", en: "COVID-19 Korea Status", thumb: "/images/fallback/card-01.svg" },
+    { href: "/001/32", ko: "쿠팡", en: "Coupang", thumb: "/images/fallback/card-02.svg" },
+    { href: "/005", ko: "TV홈쇼핑", en: "TV Home Shopping", thumb: "/images/fallback/card-03.svg" },
+    { href: "/?q=국민은행", ko: "국민은행", en: "Kookmin Bank", thumb: "/images/fallback/card-04.svg" },
+    { href: "/?q=중고나라", ko: "중고나라", en: "Used Market", thumb: "/images/fallback/card-05.svg" },
+    { href: "/notice", ko: "공지사항", en: "Notices", thumb: "/images/fallback/card-06.svg" },
+    { href: "/?m=hot", ko: "실시간 인기글", en: "Trending Now", thumb: "/images/fallback/card-07.svg" },
+    { href: "/content/company", ko: "회사소개", en: "About Us", thumb: "/images/fallback/card-08.svg" },
+    { href: "/content/%EB%A7%81%ED%81%AC%EB%93%B1%EB%A1%9D%EC%8B%A0%EC%B2%AD/", ko: "링크등록신청", en: "Link Submission", thumb: "/images/fallback/card-09.svg" }
   ];
 
   function decodeHref(href) {
@@ -283,7 +283,7 @@
 
       const thumb = document.createElement("img");
       thumb.className = "aksska-fallback-thumb";
-      thumb.src = FALLBACK_THUMB;
+      thumb.src = item.thumb || FALLBACK_THUMB;
       thumb.alt = "";
       thumb.loading = "lazy";
       card.appendChild(thumb);
