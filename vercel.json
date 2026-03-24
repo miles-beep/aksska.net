@@ -8,39 +8,39 @@
     },
     {
       "source": "/css/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/css/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/css/:path*"
     },
     {
       "source": "/js/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/js/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/js/:path*"
     },
     {
       "source": "/skin/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/skin/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/skin/:path*"
     },
     {
       "source": "/img/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/img/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/img/:path*"
     },
     {
       "source": "/images/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/images/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/images/:path*"
     },
     {
       "source": "/data/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/data/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/data/:path*"
     },
     {
       "source": "/wp-content/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-content/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/wp-content/:path*"
     },
     {
       "source": "/wp-includes/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-includes/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/wp-includes/:path*"
     },
     {
       "source": "/wp-json/:path*",
-      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-json/:path*"
+      "destination": "https://web.archive.org/web/0if_/https://aksska.net/wp-json/:path*"
     }
   ]
 }
