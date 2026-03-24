@@ -4,6 +4,19 @@
   const WAYBACK_WRAP_REL_RE = /^\/web\/\d{6,14}(?:[a-z_]+)?\/(https?:\/\/.+)$/i;
   const SUPPORTED_LANGS = new Set(["ko", "en"]);
   const STORAGE_KEY = "aksska_lang";
+  const FALLBACK_THUMB = "/images/icons/no-imgs.jpg";
+
+  const HOMEPAGE_LINKS = [
+    { href: "/002", ko: "코로나19 국내현황", en: "COVID-19 Korea Status" },
+    { href: "/001/32", ko: "쿠팡", en: "Coupang" },
+    { href: "/005", ko: "TV홈쇼핑", en: "TV Home Shopping" },
+    { href: "/?q=국민은행", ko: "국민은행", en: "Kookmin Bank" },
+    { href: "/?q=중고나라", ko: "중고나라", en: "Used Market" },
+    { href: "/notice", ko: "공지사항", en: "Notices" },
+    { href: "/?m=hot", ko: "실시간 인기글", en: "Trending Now" },
+    { href: "/content/company", ko: "회사소개", en: "About Us" },
+    { href: "/content/%EB%A7%81%ED%81%AC%EB%93%B1%EB%A1%9D%EC%8B%A0%EC%B2%AD/", ko: "링크등록신청", en: "Link Submission" }
+  ];
 
   function decodeHref(href) {
     if (!href) return href;
@@ -181,15 +194,135 @@
     document.body.appendChild(wrap);
   }
 
+  function ensureHomepageUsable(lang) {
+    const pathname = window.location.pathname || "/";
+    if (pathname !== "/") return;
+
+    const hostNode = document.querySelector("main .wrap-items");
+    if (!hostNode) return;
+
+    if (document.getElementById("aksska-fallback-grid")) return;
+
+    const style = document.createElement("style");
+    style.textContent = `
+      .aksska-fallback-wrap { margin-top: 12px; }
+      .aksska-fallback-title {
+        margin: 10px 0 12px;
+        font-size: 18px;
+        font-weight: 700;
+        color: #2a2b45;
+      }
+      .aksska-fallback-subtitle {
+        margin: 2px 0 14px;
+        font-size: 13px;
+        color: #666;
+      }
+      .aksska-fallback-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 12px;
+      }
+      .aksska-fallback-card {
+        display: block;
+        border: 1px solid #e4e4e4;
+        border-radius: 10px;
+        overflow: hidden;
+        background: #fff;
+        text-decoration: none;
+      }
+      .aksska-fallback-card:hover { box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12); }
+      .aksska-fallback-thumb {
+        width: 100%;
+        height: 92px;
+        object-fit: cover;
+        display: block;
+      }
+      .aksska-fallback-label {
+        display: block;
+        padding: 10px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #2f3147;
+      }
+      @media (max-width: 640px) {
+        .aksska-fallback-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+
+    const cseRoot = hostNode.querySelector(".gcse-search");
+    const wrap = document.createElement("section");
+    wrap.className = "aksska-fallback-wrap";
+    wrap.id = "aksska-fallback-grid";
+    wrap.style.display = "none";
+
+    const title = document.createElement("h3");
+    title.className = "aksska-fallback-title";
+    title.textContent = lang === "ko" ? "빠른 바로가기" : "Quick Access";
+    wrap.appendChild(title);
+
+    const subtitle = document.createElement("p");
+    subtitle.className = "aksska-fallback-subtitle";
+    subtitle.textContent =
+      lang === "ko"
+        ? "실시간 위젯이 비어 있을 때 사용할 수 있는 추천 링크입니다."
+        : "Recommended links you can use when the live widget is empty.";
+    wrap.appendChild(subtitle);
+
+    const grid = document.createElement("div");
+    grid.className = "aksska-fallback-grid";
+
+    for (const item of HOMEPAGE_LINKS) {
+      const card = document.createElement("a");
+      card.className = "aksska-fallback-card";
+      card.href = item.href;
+      card.setAttribute("aria-label", lang === "ko" ? item.ko : item.en);
+
+      const thumb = document.createElement("img");
+      thumb.className = "aksska-fallback-thumb";
+      thumb.src = FALLBACK_THUMB;
+      thumb.alt = "";
+      thumb.loading = "lazy";
+      card.appendChild(thumb);
+
+      const label = document.createElement("span");
+      label.className = "aksska-fallback-label";
+      label.textContent = lang === "ko" ? item.ko : item.en;
+      card.appendChild(label);
+
+      grid.appendChild(card);
+    }
+
+    wrap.appendChild(grid);
+    hostNode.appendChild(wrap);
+
+    window.setTimeout(() => {
+      const hasGoogleWidget = Boolean(
+        cseRoot &&
+        (cseRoot.querySelector(".gsc-control-cse") ||
+          cseRoot.querySelector("iframe") ||
+          cseRoot.querySelector(".gsc-resultsbox-visible"))
+      );
+      wrap.style.display = hasGoogleWidget ? "none" : "block";
+    }, 1500);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     normalizeAssets();
     normalizeAnchors();
     improveForms();
     loadDictionaries().then((dictionaries) => {
-      if (!dictionaries) return;
       const lang = detectLanguage();
+      if (!dictionaries) {
+        ensureHomepageUsable(lang);
+        return;
+      }
       applyLanguage(lang, dictionaries);
       renderLanguageSwitcher(lang, dictionaries);
+      ensureHomepageUsable(lang);
     });
   });
 })();
