@@ -1,0 +1,22 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "rewrites": [
+    {
+      "source": "/web/:path*",
+      "destination": "/"
+    },
+    {
+      "source": "/wp-content/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-content/:path*"
+    },
+    {
+      "source": "/wp-includes/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-includes/:path*"
+    },
+    {
+      "source": "/wp-json/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-json/:path*"
+    }
+  ]
+}
