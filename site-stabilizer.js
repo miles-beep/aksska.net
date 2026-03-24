@@ -2,6 +2,8 @@
   const DOMAIN_HOST_RE = /^https?:\/\/(?:www\.)?aksska\.net/i;
   const WAYBACK_WRAP_RE = /^https?:\/\/web\.archive\.org\/web\/\d{6,14}(?:[a-z_]+)?\/(https?:\/\/.+)$/i;
   const WAYBACK_WRAP_REL_RE = /^\/web\/\d{6,14}(?:[a-z_]+)?\/(https?:\/\/.+)$/i;
+  const SUPPORTED_LANGS = new Set(["ko", "en"]);
+  const STORAGE_KEY = "aksska_lang";
 
   function decodeHref(href) {
     if (!href) return href;
@@ -74,9 +76,120 @@
     }
   }
 
+  function detectLanguage() {
+    const params = new URLSearchParams(window.location.search);
+    const queryLang = (params.get("lang") || "").toLowerCase();
+    if (SUPPORTED_LANGS.has(queryLang)) return queryLang;
+
+    const savedLang = (window.localStorage.getItem(STORAGE_KEY) || "").toLowerCase();
+    if (SUPPORTED_LANGS.has(savedLang)) return savedLang;
+
+    const preferred = (navigator.language || "").toLowerCase();
+    if (preferred.startsWith("ko")) return "ko";
+
+    const preferredList = Array.isArray(navigator.languages) ? navigator.languages : [];
+    if (preferredList.some((lang) => String(lang).toLowerCase().startsWith("ko"))) return "ko";
+
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone || "";
+    if (tz.toLowerCase().includes("seoul")) return "ko";
+
+    return "en";
+  }
+
+  async function loadDictionaries() {
+    try {
+      const [koRes, enRes] = await Promise.all([
+        fetch("/i18n/ko.json", { cache: "no-cache" }),
+        fetch("/i18n/en.json", { cache: "no-cache" }),
+      ]);
+      if (!koRes.ok || !enRes.ok) return null;
+      const [ko, en] = await Promise.all([koRes.json(), enRes.json()]);
+      return { ko, en };
+    } catch {
+      return null;
+    }
+  }
+
+  function replaceTextNode(textNode, phraseMap) {
+    const raw = textNode.nodeValue;
+    if (!raw) return;
+    const trimmed = raw.trim();
+    if (!trimmed) return;
+    const next = phraseMap[trimmed];
+    if (!next || next === trimmed) return;
+    textNode.nodeValue = raw.replace(trimmed, next);
+  }
+
+  function applyLanguage(lang, dictionaries) {
+    const dict = dictionaries?.[lang];
+    const phraseMap = dict?.phrases || {};
+    document.documentElement.lang = lang;
+
+    if (phraseMap[document.title]) {
+      document.title = phraseMap[document.title];
+    }
+
+    const textWalker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+    const blockedTags = new Set(["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "CODE", "PRE"]);
+
+    while (textWalker.nextNode()) {
+      const node = textWalker.currentNode;
+      const parent = node.parentElement;
+      if (!parent || blockedTags.has(parent.tagName)) continue;
+      replaceTextNode(node, phraseMap);
+    }
+
+    const placeholders = document.querySelectorAll("[placeholder]");
+    for (const el of placeholders) {
+      const placeholder = el.getAttribute("placeholder");
+      const next = phraseMap[placeholder || ""];
+      if (next) el.setAttribute("placeholder", next);
+    }
+
+    const valueInputs = document.querySelectorAll("input[value], button[value]");
+    for (const el of valueInputs) {
+      const value = el.getAttribute("value");
+      const next = phraseMap[value || ""];
+      if (next) el.setAttribute("value", next);
+    }
+  }
+
+  function renderLanguageSwitcher(currentLang, dictionaries) {
+    if (!dictionaries) return;
+    const wrap = document.createElement("div");
+    wrap.setAttribute("id", "aksska-lang-switcher");
+    wrap.style.cssText =
+      "position:fixed;right:12px;bottom:12px;z-index:99999;display:flex;gap:4px;background:#111;padding:4px;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.35);";
+
+    for (const lang of ["ko", "en"]) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.textContent = lang.toUpperCase();
+      const isActive = lang === currentLang;
+      btn.style.cssText =
+        `border:none;border-radius:6px;padding:6px 10px;font-size:12px;cursor:pointer;` +
+        (isActive ? "background:#4f46e5;color:#fff;" : "background:#e5e7eb;color:#111;");
+      btn.addEventListener("click", () => {
+        window.localStorage.setItem(STORAGE_KEY, lang);
+        const url = new URL(window.location.href);
+        url.searchParams.set("lang", lang);
+        window.location.href = url.toString();
+      });
+      wrap.appendChild(btn);
+    }
+
+    document.body.appendChild(wrap);
+  }
+
   document.addEventListener("DOMContentLoaded", () => {
     normalizeAssets();
     normalizeAnchors();
     improveForms();
+    loadDictionaries().then((dictionaries) => {
+      if (!dictionaries) return;
+      const lang = detectLanguage();
+      applyLanguage(lang, dictionaries);
+      renderLanguageSwitcher(lang, dictionaries);
+    });
   });
 })();
