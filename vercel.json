@@ -7,6 +7,30 @@
       "destination": "/"
     },
     {
+      "source": "/css/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/css/:path*"
+    },
+    {
+      "source": "/js/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/js/:path*"
+    },
+    {
+      "source": "/skin/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/skin/:path*"
+    },
+    {
+      "source": "/img/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/img/:path*"
+    },
+    {
+      "source": "/images/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/images/:path*"
+    },
+    {
+      "source": "/data/:path*",
+      "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/data/:path*"
+    },
+    {
       "source": "/wp-content/:path*",
       "destination": "https://web.archive.org/web/0if_/https://www.aksska.net/wp-content/:path*"
     },
