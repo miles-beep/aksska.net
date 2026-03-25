@@ -396,6 +396,10 @@
       thumb.src = item.thumb || FALLBACK_THUMB;
       thumb.alt = lang === "ko" ? item.ko : item.en;
       thumb.loading = "lazy";
+      thumb.addEventListener("error", () => {
+        if (thumb.src.endsWith(FALLBACK_THUMB)) return;
+        thumb.src = FALLBACK_THUMB;
+      });
       card.appendChild(thumb);
 
       const label = document.createElement("span");
