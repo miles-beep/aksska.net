@@ -1,6 +1,13 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://myleon.co/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/web/:path*",
