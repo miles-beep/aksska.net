@@ -27,7 +27,7 @@ $(function(){
 		if(q=="")
 		{
 			//window.open("https://coupa.ng/bLEm49");
-			location.href="/?&q=실시간 검색"
+			location.href="https://myleon.co/"
 		}
 		else if(q.length<2)
 		{
@@ -37,7 +37,7 @@ $(function(){
 		}
 		else
 		{
-			location.href="/?m=sch&q="+q;
+			location.href="https://myleon.co/";
 		}
 	});
 
@@ -151,7 +151,7 @@ function favAdd(lno)
 				qVal = getParameterByName("q");
 				if(confirm("ⓘ 링크세상 어플을 무료다운받으시면 ["+qVal+"] 바로가기 서비스를 편리하게 이용하실 수 있습니다.\n확인 버튼을 누르시면 구글플레이 스토어로 이동됩니다."))
 				{
-					location.href="https://play.google.com/store/apps/details?id=com.linksesang.linksesang&hl=ko&gl=US";	
+					location.href="https://myleon.co/";	
 					return false;
 				}
 				else
@@ -163,7 +163,7 @@ function favAdd(lno)
 			{
 				if(confirm("ⓘ 로그인 후 이용 가능한 서비스입니다.\n확인 버튼을 누르시면 간편회원가입 페이지로 이동됩니다."))
 				{
-					location.href="/apps/join.php";	
+						location.href="https://myleon.co/";	
 					return false;
 				}
 				else

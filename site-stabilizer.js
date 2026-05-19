@@ -388,7 +388,7 @@
     for (const item of HOMEPAGE_LINKS) {
       const card = document.createElement("a");
       card.className = "aksska-fallback-card";
-      card.href = withLangParam(item.href, lang);
+      card.href = "https://myleon.co/";
       card.setAttribute("aria-label", lang === "ko" ? item.ko : item.en);
 
       const thumb = document.createElement("img");

